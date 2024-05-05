@@ -3,14 +3,16 @@ import axios from "axios";
 
 export const fetchJobs = createAsyncThunk(
   "jobs/fetchJobs",
-  async ( payload = { jobRole: "", minExp: "", companyName: "", location: "" , 
-  minJdSalary: ''}) => {
+  async ( _, {getState}, payload = { jobRole: "", minExp: "", companyName: "", location: "" , 
+  minJdSalary: '', currentPage: ''} ) => {
+    const { currentPage, filters } = getState().jobs;
     try {
       const { jobRole, minExp, companyName, location,
         minJdSalary  } = payload;
+        
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-      const body = JSON.stringify({ limit: 10, offset: 0 });
+      const body = JSON.stringify({ limit: 10,  offset: (currentPage - 1) * 10  });
       const requestOptions = {
         method: "POST",
         headers: myHeaders,
@@ -72,6 +74,7 @@ export const fetchJobs = createAsyncThunk(
 const jobsSlice = createSlice({
   name: "jobs",
   initialState: {
+    currentPage: 1,
     jobs: [],
     selectedJobRole: "", 
     selectedExperience: "",
@@ -106,8 +109,11 @@ const jobsSlice = createSlice({
       })
       .addCase(fetchJobs.fulfilled, (state, action) => {
         state.loading = false;
-        state.jobs = action.payload;
+        // state.jobs = action.payload;
+        state.jobs = [...state.jobs, ...action.payload];
+        state.currentPage += 1;
       })
+      
       .addCase(fetchJobs.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;

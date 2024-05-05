@@ -114,6 +114,25 @@ const Home = () => {
     searchQuery,
   ]);
 
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollHeight = document.documentElement.scrollHeight;
+      const scrollTop = document.documentElement.scrollTop;
+      const clientHeight = document.documentElement.clientHeight;
+
+      if (scrollTop + clientHeight >= scrollHeight - 200 && !loading) {
+        dispatch(fetchJobs());
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [dispatch, loading]);
+
+  useEffect(() => {
+    dispatch(fetchJobs());
+  }, [dispatch]);
   return (
     <div className="main_container">
       <h1>Candidate Application Platform</h1>
