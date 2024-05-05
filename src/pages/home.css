@@ -1,0 +1,248 @@
+.search_box {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin-top:20px;
+}
+h1{
+  text-align: center;
+}
+.input {
+  border: 1px solid #ccc !important;
+  height: 36px !important;
+  background-color: rgb(255, 255, 255);
+  font-family: __LexendFont_7838d2, __LexendFont_Fallback_7838d2;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.4375em;
+  color: rgba(0, 0, 0, 0.87);
+  box-sizing: border-box;
+  cursor: text;
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  position: relative;
+  border-radius: 4px;
+  padding: 5px 8px;
+}
+
+/* .css-7hv969 * {
+  scroll-behavior: smooth;
+  scroll-margin-top: 90px;
+} */
+
+@media (max-width: 768px) {
+  .search_box {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .search_box {
+    flex-wrap: wrap;
+  }
+}
+
+
+
+.card {
+    background-color: rgb(255, 255, 255);
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    align-items: center;
+    height: 100% !important;
+    position: relative !important;
+    border-radius: 20px !important;
+    padding: 10px !important;
+    color: rgba(0, 0, 0, 0.87);
+    overflow: hidden;
+    max-width: 310px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px 0px !important;
+  }
+  .name {
+    color: #8b8b8b;
+  }
+  .role {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  ul {
+    text-decoration: none;
+    list-style-type: none;
+    margin-top: 20px;
+  }
+  .job-card {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+  .card_cont {
+    color: #000000de;
+    display: flex;
+    align-items: flex-start;
+    padding: 10px;
+    flex-direction: column;
+    padding-top: 2px;
+  }
+  .card_subtext {
+    font-size: 11px;
+    font-weight: 500;
+    margin-top: 5px;
+    text-transform: capitalize;
+  }
+  .job_description {
+    font-weight: 400;
+    position: relative;
+    max-height: 250px;
+    overflow: hidden;
+    font-size: 14px;
+    color: #000000de;
+    overflow: hidden;
+  }
+  .info_container {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+    color: #8b8b8b;
+  }
+  .card-body img {
+    width: 25px;
+    height: 40px;
+  }
+  img {
+    max-width: 100%;
+  }
+  img,
+  svg {
+    display: block;
+  }
+  img {
+    overflow-clip-margin: content-box;
+    overflow: clip;
+  }
+  .salary {
+    font-weight: 400;
+    text-transform: capitalize;
+    font-size: 14px !important;
+    margin: 2px 0 !important;
+    color: rgb(77, 89, 106);
+    line-height: 1.43;
+  }
+  .desc_job {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 50px;
+  }
+  .about_comp {
+    margin: 0px;
+    font-family: __LexendFont_7838d2, __LexendFont_Fallback_7838d2;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: rgba(0, 0, 0, 0.87);
+    font-weight: 500;
+  }
+  p {
+    display: block;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.87);
+  }
+  
+  .des_job p {
+    margin: 0;
+    padding: 0;
+  }
+  .card:hover {
+    transition: all 0.2s ease-in-out;
+    transform: scale(1.01);
+  }
+  
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 40px;
+  }
+  
+  .card {
+    width: calc(33.33% - 30.3px);
+  
+    margin-bottom: 20px;
+    box-sizing: border-box;
+  }
+  
+  @media (max-width: 768px) {
+    .card {
+      width: calc(50% - 26px);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .card {
+      width: 100%;
+    }
+  }
+  
+  a {
+    color: #4943da;
+    font-weight: 400;
+    font-size: 14px;
+  }
+  .info_container {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px;
+    background-color: white;
+    width: 100%;
+  }
+  
+  .info_container p,
+  .info_container li {
+    margin: 0;
+    padding: 5px;
+  }
+  
+  .btn {
+    width: 100%;
+    background-color: rgb(85, 239, 196);
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+    padding: 12px 18px;
+    justify-content: center;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.87);
+    display: flex;
+    gap: 0.5rem;
+    border-radius: 8px;
+    margin: 5px 0;
+    text-transform: none;
+    font-size: 16px;
+    border: none;
+  }
+  .bottom-blur {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 10vh;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 1)
+    );
+  }
+  .view_job {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  
+  

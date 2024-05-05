@@ -1,0 +1,135 @@
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-input {
+  padding-right: 20px; /* Adjust the padding to accommodate the icon */
+  width: 230px; /* Set an initial width */
+}
+
+.icons-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-icon {
+  color: #333; /* Adjust the color of the icon */
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.option_label {
+  color: #333333;
+  /* width: auto; */
+  width: 200px;
+  padding: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: -30px;
+  left: 0;
+  z-index: 1;
+}
+
+/* Dropdown Input */
+.dropdown-input {
+  color: #333333;
+  border: 1px solid #ccc !important;
+  height: 36px !important;
+  background-color: rgb(255, 255, 255);
+  font-family: __LexendFont_7838d2, __LexendFont_Fallback_7838d2;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.4375em;
+  color: rgba(0, 0, 0, 0.87);
+  box-sizing: border-box;
+  cursor: text;
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  position: relative;
+  border-radius: 4px;
+  padding: 5px 8px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* Hide the default arrow */
+select {
+  appearance: none; /* Hide the default arrow in Firefox */
+  -webkit-appearance: none;
+  -moz-appearance: none; /* Hide the default arrow in older versions of Opera */
+  background-image: url("../assets/arrow.svg");
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+/* Style the custom arrow */
+.dropdown-icon {
+  width: 20px; /* Adjust the width as needed */
+  height: 20px; /* Adjust the height as needed */
+  fill: #333; /* Adjust the color of the arrow */
+}
+
+.icons-wrapper {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  height: 100%;
+}
+
+/* Separator */
+.separator {
+  color: #ccc; /* Adjust color as needed */
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+
+/* Dropdown Icon */
+.dropdown-icon {
+  color: #ccc; /* Adjust color as needed */
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+/* Dropdown Content */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #f9f9f9;
+  min-width: 100%;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  max-height: 200px; /* Set a maximum height for the dropdown content */
+  overflow-y: auto; /* Add scrollbar if content exceeds max-height */
+}
+
+/* Dropdown Option */
+.dropdown-option {
+  color: black;
+  padding: 12px 16px;
+  cursor: pointer;
+}
+
+/* Show Dropdown Content on Hover */
+.dropdown-container:hover .dropdown-content {
+  display: block;
+}
