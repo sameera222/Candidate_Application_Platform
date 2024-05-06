@@ -5,7 +5,7 @@ export const FETCH_JOBS_SUCCESS = "FETCH_JOBS_SUCCESS";
 export const FETCH_JOBS_FAILURE = "FETCH_JOBS_FAILURE";
 export const SET_SELECTED_JOB_ROLE = "SET_SELECTED_JOB_ROLE";
 export const SET_SELECTED_EXPERIENCE = 'SET_SELECTED_EXPERIENCE';
-export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
+export const SET_SELECTED_SEARCH_QUERY = 'SET_SELECTED_SEARCH_QUERY';
 export const SET_LOCATION = "SET_LOCATION";
 export const SET_SELECTED_SALARY = 'SET_SELECTED_SALARY';
 
@@ -46,8 +46,8 @@ export const setSelectedSalary= (salary) => ({
   type: SET_SELECTED_SALARY,
   payload: salary,
 });
-export const setSearchQuery = (searchQuery) => ({
-  type: SET_SEARCH_QUERY,
+export const setSelectedSearchQuery = (searchQuery) => ({
+  type: SET_SELECTED_SEARCH_QUERY,
   payload: searchQuery,
 });
 

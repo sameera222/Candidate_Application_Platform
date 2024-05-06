@@ -4,12 +4,13 @@ import { fetchJobs } from "../redux/reducers/jobSlice";
 import {
   setSelectedJobRole,
   setSelectedExperience,
-  setSearchQuery,
+  setSelectedSearchQuery,
   setSelectedLocation,
   setSelectedSalary,
 } from "../redux/actions/actions";
 import CustomDropDown from "../components/CustomDropDown";
 import "./home.css";
+import JobCard from "../components/JobCard";
 
 const Home = () => {
   const [desiredMinExp, setDesiredMinExp] = useState("");
@@ -80,17 +81,20 @@ const Home = () => {
     );
   };
   const handleInputChange = (event) => {
-    const search = event.target.value;
-    dispatch(setSearchQuery(event.target.value));
+    event.preventDefault();
+    const companyName = event.target.value;
+
+    dispatch(setSelectedSearchQuery(companyName));
     dispatch(
       fetchJobs({
         jobRole: selectedJobRole,
         minExp: selectedExperience,
-        search,
+        companyName,
       })
     );
-
-    console.log(search, "ss");
+    if (companyName === "") {
+      dispatch(setSelectedSearchQuery(""));
+    }
   };
 
   useEffect(() => {
@@ -100,11 +104,9 @@ const Home = () => {
         minExp: desiredMinExp,
         location: selectedLocation,
         salary: selectedSalary,
-        search: searchQuery,
+        companyName: searchQuery,
       })
     );
-
- 
   }, [
     dispatch,
     selectedJobRole,
@@ -114,25 +116,26 @@ const Home = () => {
     searchQuery,
   ]);
 
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const scrollHeight = document.documentElement.scrollHeight;
+  //     const scrollTop = document.documentElement.scrollTop;
+  //     const clientHeight = document.documentElement.clientHeight;
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollHeight = document.documentElement.scrollHeight;
-      const scrollTop = document.documentElement.scrollTop;
-      const clientHeight = document.documentElement.clientHeight;
+  // if (scrollTop + clientHeight >= scrollHeight - 200 && !loading) {
+  //   dispatch(fetchJobs());
+  // }
+  // dispatch(fetchJobs({ currentPage: currentPage + 1 }));
+  // setCurrentPage(currentPage + 1);
+  // };
 
-      if (scrollTop + clientHeight >= scrollHeight - 200 && !loading) {
-        dispatch(fetchJobs());
-      }
-    };
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, [dispatch, loading]);
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [dispatch, loading]);
-
-  useEffect(() => {
-    dispatch(fetchJobs());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchJobs());
+  // }, [dispatch]);
   return (
     <div className="main_container">
       <h1>Candidate Application Platform</h1>
@@ -211,55 +214,8 @@ const Home = () => {
       </div>
 
       {loading && <p>Loading...</p>}
-
       {error && <p>Error: {error}</p>}
-      <ul>
-        {jobs &&
-          jobs.map((product) => (
-           
-
-            <div key={product.id} className="card">
-              <div className="card_cont">
-                <div className="job-card">
-                  <div className="card-body">
-                    <img src={product.logoUrl} alt={product.companyName} />
-                  </div>
-                  <div className="card-details">
-                    <li className="name"> {product.companyName}</li>
-                    <li className="role"> {product.jobRole}</li>
-                    <li className="location card_subtext">
-                      {" "}
-                      {product.location}
-                    </li>
-                  </div>
-                </div>
-
-                <li className="salary">
-                  Estimated Salary: {product.minJdSalary} -{" "}
-                  {product.maxJdSalary} LPA
-                </li>
-
-                <div className="des_job">
-                  <p style={{ marginTop: "10px" }}>About Company:</p>
-                  <p>About Us</p>
-                </div>
-                <div className="job_description">
-                  {product.jobDetailsFromCompany}
-                  <div className="bottom-blur" />
-                </div>
-                <div className="view_job">
-                  <a>View Job</a>
-                </div>
-                <div className="info_container">
-                  <li>Minimum Experience </li>
-                  <p>{product.minExp} Years</p>
-
-                  <button className="btn">Easy Apply</button>
-                </div>
-              </div>
-            </div>
-          ))}
-      </ul>
+      <ul>{jobs && jobs.map((product) => <JobCard product={product} />)}</ul>
     </div>
   );
 };

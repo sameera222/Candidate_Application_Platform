@@ -3,16 +3,22 @@ import axios from "axios";
 
 export const fetchJobs = createAsyncThunk(
   "jobs/fetchJobs",
-  async ( _, {getState}, payload = { jobRole: "", minExp: "", companyName: "", location: "" , 
-  minJdSalary: '', currentPage: ''} ) => {
-    const { currentPage, filters } = getState().jobs;
+  async ( 
+    // _, {getState}, 
+    payload = { jobRole: "", minExp: "", companyName: "", location: "" , 
+  minJdSalary: '', currentPage: ''}  ) => {
+    // const { jobs, selectedJobRole, selectedExperience, selectedLocation, selectedSalary } = getState().jobs;
+    // const { currentPage = 1 } = payload;
+    // const { currentPage } = getState().jobs;
     try {
       const { jobRole, minExp, companyName, location,
         minJdSalary  } = payload;
         
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-      const body = JSON.stringify({ limit: 10,  offset: (currentPage - 1) * 10  });
+      const body = JSON.stringify({ limit: 10,  offset: 0 
+        // (currentPage - 1) * 10  
+      });
       const requestOptions = {
         method: "POST",
         headers: myHeaders,
@@ -26,6 +32,7 @@ export const fetchJobs = createAsyncThunk(
       const { jdList } = response.data;
       console.log(jdList, "jd");
       let filteredList = jdList;
+    
 
       if (typeof jobRole === "string" && jobRole.trim() !== "") {
         filteredList = filteredList.filter((product) =>
@@ -49,6 +56,7 @@ export const fetchJobs = createAsyncThunk(
       } else {
         // Show all jobs if no specific location is selected
         filteredList = filteredList;
+      
       }
       if (
         minJdSalary) {
@@ -63,7 +71,29 @@ export const fetchJobs = createAsyncThunk(
         );
       }
       return filteredList;
+      // return filteredList.map((job) => ({ ...job, showFullContent: false }));
      
+
+      // const filteredJobs = jobs.filter((job) => {
+      //   let shouldInclude = true;
+
+      //   if (selectedJobRole && job.jobRole !== selectedJobRole) {
+      //     shouldInclude = false;
+      //   }
+
+      //   if (selectedExperience && job.minExp !== selectedExperience) {
+      //     shouldInclude = false;
+      //   }
+
+      //   // Add other filter conditions here
+
+      //   return shouldInclude;
+      // });
+
+      // // Merge the filtered data with the fetched data
+      // const mergedJobs = [...filteredJobs, ...filteredList];
+
+      // return mergedJobs;
     } catch (error) {
       console.error("Error fetching products: ", error);
       throw error; // Throw the error to be caught by the rejected case
@@ -74,7 +104,7 @@ export const fetchJobs = createAsyncThunk(
 const jobsSlice = createSlice({
   name: "jobs",
   initialState: {
-    currentPage: 1,
+    // currentPage: 1,
     jobs: [],
     selectedJobRole: "", 
     selectedExperience: "",
@@ -91,7 +121,7 @@ const jobsSlice = createSlice({
     setSelectedExperience: (state, action) => {
       state.selectedExperience = action.payload;
     },
-    setSearchQuery: (state, action) => {
+    setSelectedSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
     },
     setSelectedLocation: (state, action) => {
@@ -109,20 +139,27 @@ const jobsSlice = createSlice({
       })
       .addCase(fetchJobs.fulfilled, (state, action) => {
         state.loading = false;
-        // state.jobs = action.payload;
-        state.jobs = [...state.jobs, ...action.payload];
-        state.currentPage += 1;
+        state.jobs = action.payload;
+        // state.jobs = [...state.jobs, ...action.payload];
+        // state.currentPage += 1;
       })
       
       .addCase(fetchJobs.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
-      });
+      })
+      .addCase('jobs/updateShowFullContent', (state, action) => {
+        const { jdUid, showFullContent } = action.payload;
+        state.jobs = state.jobs.map((job) =>
+          job.jdUid === jdUid ? { ...job, showFullContent } : job
+        );
+      })
+
   },
 });
 
 export const { setSelectedJobRole, setSelectedExperience,
-  setSearchQuery,
+  setSelectedSearchQuery,
   setSelectedLocation,
   setSelectedSalary } = jobsSlice.actions;
 export default jobsSlice.reducer;
