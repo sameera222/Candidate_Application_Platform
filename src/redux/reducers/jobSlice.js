@@ -6,18 +6,18 @@ export const fetchJobs = createAsyncThunk(
   async ( 
     // _, {getState}, 
     payload = { jobRole: "", minExp: "", companyName: "", location: "" , 
-  minJdSalary: '', currentPage: ''}  ) => {
+  minJdSalary: '', page: 1}  ) => {
     // const { jobs, selectedJobRole, selectedExperience, selectedLocation, selectedSalary } = getState().jobs;
     // const { currentPage = 1 } = payload;
-    // const { currentPage } = getState().jobs;
+    // const { page = 1} = getState().jobs;
     try {
       const { jobRole, minExp, companyName, location,
-        minJdSalary  } = payload;
+        minJdSalary , page } = payload;
         
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-      const body = JSON.stringify({ limit: 10,  offset: 0 
-        // (currentPage - 1) * 10  
+      const body = JSON.stringify({ limit: 10,  offset:  
+        (page - 1) * 10  
       });
       const requestOptions = {
         method: "POST",
@@ -104,7 +104,7 @@ export const fetchJobs = createAsyncThunk(
 const jobsSlice = createSlice({
   name: "jobs",
   initialState: {
-    // currentPage: 1,
+  page: 1,
     jobs: [],
     selectedJobRole: "", 
     selectedExperience: "",
@@ -141,7 +141,7 @@ const jobsSlice = createSlice({
         state.loading = false;
         state.jobs = action.payload;
         // state.jobs = [...state.jobs, ...action.payload];
-        // state.currentPage += 1;
+        state.currentPage += 1;
       })
       
       .addCase(fetchJobs.rejected, (state, action) => {

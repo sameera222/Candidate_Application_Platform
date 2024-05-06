@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const JobCard = ({ product }) => {
+const JobCard = React.memo(({ product }) => {
   const dispatch = useDispatch();
   const jobs = useSelector((state) => state.jobs.jobs);
 
@@ -74,6 +74,6 @@ const JobCard = ({ product }) => {
       </div>
     </div>
   );
-};
+});
 
 export default JobCard;
