@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchJobs } from "../redux/reducers/jobSlice";
 import {
@@ -14,8 +14,7 @@ import JobCard from "../components/JobCard";
 
 const Home = () => {
   const [desiredMinExp, setDesiredMinExp] = useState("");
-  const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(1);
+
 
   const dispatch = useDispatch();
   const { jobs, loading, error } = useSelector((state) => state.jobs);
@@ -124,75 +123,10 @@ const Home = () => {
     searchQuery,
   ]);
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const scrollHeight = document.documentElement.scrollHeight;
-  //     const scrollTop = document.documentElement.scrollTop;
-  //     const clientHeight = document.documentElement.clientHeight;
-
-  // if (scrollTop + clientHeight >= scrollHeight - 200 && !loading) {
-  //   dispatch(fetchJobs());
-  // }
-  // dispatch(fetchJobs({ page: page + 1 }));
-  // setPage(page + 1);
-  // };
-
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, [dispatch, loading]);
-
-  // useEffect(() => {
-  //   dispatch(fetchJobs());
-  // }, [dispatch]);
+ 
 
 
-  const handleScroll = useCallback(() => {
-    const scrollHeight = document.documentElement.scrollHeight;
-    const scrollTop = document.documentElement.scrollTop;
-    const clientHeight = document.documentElement.clientHeight;
-
-    if (scrollTop + clientHeight >= scrollHeight - 200 && !loading && hasMore) {
-      setPage((prevPage) => prevPage + 1);
-    }
-  }, [loading, hasMore]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await dispatch(
-        fetchJobs({
-          jobRole: selectedJobRole,
-          minExp: desiredMinExp,
-          location: selectedLocation,
-          salary: selectedSalary,
-          companyName: searchQuery,
-          page,
-        })
-      );
-
-      if (result.payload.length === 0) {
-        setHasMore(false);
-      }else {
-        setHasMore(true);
-      }
-    };
-
-    fetchData();
-  }, [
-    dispatch,
-    selectedJobRole,
-    desiredMinExp,
-    selectedLocation,
-    selectedSalary,
-    searchQuery,
-    page,
-  ]);
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [handleScroll]);
-
-  // ... (other code)
+  
 
   return (
     <div className="main_container">

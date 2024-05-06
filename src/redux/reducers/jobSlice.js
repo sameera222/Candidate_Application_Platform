@@ -3,22 +3,26 @@ import axios from "axios";
 
 export const fetchJobs = createAsyncThunk(
   "jobs/fetchJobs",
-  async ( 
-    // _, {getState}, 
-    payload = { jobRole: "", minExp: "", companyName: "", location: "" , 
-  minJdSalary: '', page: 1}  ) => {
-    // const { jobs, selectedJobRole, selectedExperience, selectedLocation, selectedSalary } = getState().jobs;
-    // const { currentPage = 1 } = payload;
-    // const { page = 1} = getState().jobs;
+  async (
+    payload = {
+      jobRole: "",
+      minExp: "",
+      companyName: "",
+      location: "",
+      minJdSalary: "",
+      page: 1,
+      
+    },
+    { getState }
+  ) => {
     try {
-      const { jobRole, minExp, companyName, location,
-        minJdSalary , page } = payload;
-        
+      const { jobRole, minExp, companyName, location, minJdSalary, page } =
+        payload;
+        const { jobs } = getState().jobs;
+
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-      const body = JSON.stringify({ limit: 10,  offset:  
-        (page - 1) * 10  
-      });
+      const body = JSON.stringify({ limit: 10, offset: (page - 1) * 10 });
       const requestOptions = {
         method: "POST",
         headers: myHeaders,
@@ -32,7 +36,6 @@ export const fetchJobs = createAsyncThunk(
       const { jdList } = response.data;
       console.log(jdList, "jd");
       let filteredList = jdList;
-    
 
       if (typeof jobRole === "string" && jobRole.trim() !== "") {
         filteredList = filteredList.filter((product) =>
@@ -56,12 +59,10 @@ export const fetchJobs = createAsyncThunk(
       } else {
         // Show all jobs if no specific location is selected
         filteredList = filteredList;
-      
       }
-      if (
-        minJdSalary) {
-        filteredList = filteredList.filter((product) =>
-          product.minJdSalary < minJdSalary
+      if (minJdSalary) {
+        filteredList = filteredList.filter(
+          (product) => product.minJdSalary < minJdSalary
         );
       }
 
@@ -71,29 +72,7 @@ export const fetchJobs = createAsyncThunk(
         );
       }
       return filteredList;
-      // return filteredList.map((job) => ({ ...job, showFullContent: false }));
      
-
-      // const filteredJobs = jobs.filter((job) => {
-      //   let shouldInclude = true;
-
-      //   if (selectedJobRole && job.jobRole !== selectedJobRole) {
-      //     shouldInclude = false;
-      //   }
-
-      //   if (selectedExperience && job.minExp !== selectedExperience) {
-      //     shouldInclude = false;
-      //   }
-
-      //   // Add other filter conditions here
-
-      //   return shouldInclude;
-      // });
-
-      // // Merge the filtered data with the fetched data
-      // const mergedJobs = [...filteredJobs, ...filteredList];
-
-      // return mergedJobs;
     } catch (error) {
       console.error("Error fetching products: ", error);
       throw error; // Throw the error to be caught by the rejected case
@@ -104,15 +83,16 @@ export const fetchJobs = createAsyncThunk(
 const jobsSlice = createSlice({
   name: "jobs",
   initialState: {
-  page: 1,
+    page: 1,
     jobs: [],
-    selectedJobRole: "", 
+    selectedJobRole: "",
     selectedExperience: "",
     searchQuery: "",
     selectedLocation: "",
-    selectedSalary: '', // Renamed selectedCategory to selectedJobRole
+    selectedSalary: "", // Renamed selectedCategory to selectedJobRole
     loading: false,
     error: null,
+    hasMore: true,
   },
   reducers: {
     setSelectedJobRole: (state, action) => {
@@ -140,26 +120,30 @@ const jobsSlice = createSlice({
       .addCase(fetchJobs.fulfilled, (state, action) => {
         state.loading = false;
         state.jobs = action.payload;
-        // state.jobs = [...state.jobs, ...action.payload];
         state.currentPage += 1;
       })
-      
+
       .addCase(fetchJobs.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })
-      .addCase('jobs/updateShowFullContent', (state, action) => {
+      .addCase("jobs/updateShowFullContent", (state, action) => {
         const { jdUid, showFullContent } = action.payload;
         state.jobs = state.jobs.map((job) =>
           job.jdUid === jdUid ? { ...job, showFullContent } : job
         );
-      })
-
+      });
   },
 });
 
-export const { setSelectedJobRole, setSelectedExperience,
+export const {
+  setSelectedJobRole,
+  setSelectedExperience,
   setSelectedSearchQuery,
   setSelectedLocation,
-  setSelectedSalary } = jobsSlice.actions;
+  setSelectedSalary,
+} = jobsSlice.actions;
 export default jobsSlice.reducer;
+
+
+

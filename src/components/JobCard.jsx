@@ -47,7 +47,7 @@ const JobCard = React.memo(({ product }) => {
             className="view_job"
             onClick={() => toggleJobContent(product.jdUid)}
           >
-            <a>View Job</a>
+            View Job
           </div>
         )}
         <div className="info_container">
@@ -67,7 +67,7 @@ const JobCard = React.memo(({ product }) => {
               className="view_job"
               onClick={() => toggleJobContent(product.jdUid)}
             >
-              <a>Read Less</a>
+              Read Less
             </div>
           </div>
         )}
